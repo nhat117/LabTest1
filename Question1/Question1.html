@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Question 1</title>
+    <!--    Quick style-->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+
+        h1 {
+            align-self: center;
+            padding: 20px;
+        }
+
+        .main-container {
+            width: 100vw;
+            grid-template-columns: repeat(10, 2fr);
+            display: grid;
+        }
+
+        .container {
+            border: 1px solid black;
+            height: 40px;
+        }
+
+        .element {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+        }
+
+        .element:hover {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<h1>Sort array in the correct order</h1>
+<div class="main-container">
+    <div class="container" ondragover="dragOverHandler(event)">
+        <div class="element" draggable="true" ondrag="dragHandler(event)" ondragstart="startDragHandler(event)"
+             ondragend="endDragHandler(event)">
+            <h3 class="drag-element">1</h3>
+        </div>
+    </div>
+    <div class="container" ondragover="dragOverHandler(event)">
+        <div class="element" draggable="true" ondrag="dragHandler(event)" ondragstart="startDragHandler(event)"
+             ondragend="endDragHandler(event)">
+            <h3 class="drag-element">2</h3>
+        </div>
+    </div>
+    <div class="container" ondragover="dragOverHandler(event)">
+        <div class="element" draggable="true" ondrag="dragHandler(event)" ondragstart="startDragHandler(event)"
+             ondragend="endDragHandler(event)">
+            <h3 class="drag-element">3</h3>
+        </div>
+    </div>
+    <div class="container" ondragover="dragOverHandler(event)">
+        <div class="element" draggable="true" ondrag="dragHandler(event)" ondragstart="startDragHandler(event)"
+             ondragend="endDragHandler(event)">
+            <h3 class="drag-element">4</h3>
+        </div>
+    </div>
+    <div class="container" ondragover="dragOverHandler(event)">
+        <div class="element" draggable="true" ondrag="dragHandler(event)" ondragstart="startDragHandler(event)"
+             ondragend="endDragHandler(event)">
+            <h3 class="drag-element">5</h3>
+        </div>
+    </div>
+    <div class="container" ondragover="dragOverHandler(event)">
+        <div class="element" draggable="true" ondrag="dragHandler(event)" ondragstart="startDragHandler(event)"
+             ondragend="endDragHandler(event)">
+            <h3 class="drag-element">6</h3>
+        </div>
+    </div>
+    <div class="container" ondragover="dragOverHandler(event)">
+        <div class="element" draggable="true" ondrag="dragHandler(event)" ondragstart="startDragHandler(event)"
+             ondragend="endDragHandler(event)">
+            <h3 class="drag-element">7</h3>
+        </div>
+    </div>
+    <div class="container" ondragover="dragOverHandler(event)">
+        <div class="element" draggable="true" ondrag="dragHandler(event)" ondragstart="startDragHandler(event)"
+             ondragend="endDragHandler(event)">
+            <h3 class="drag-element">8</h3>
+        </div>
+    </div>
+    <div class="container" ondragover="dragOverHandler(event)">
+        <div class="element" draggable="true" ondrag="dragHandler(event)" ondragstart="startDragHandler(event)"
+             ondragend="endDragHandler(event)">
+            <h3 class="drag-element">9</h3>
+        </div>
+    </div>
+    <div class="container" ondragover="dragOverHandler(event)">
+        <div class="element" draggable="true" ondrag="dragHandler(event)" ondragstart="startDragHandler(event)"
+             ondragend="endDragHandler(event)">
+            <h3 class="drag-element">10</h3>
+        </div>
+    </div>
+</div>
+<script>
+    const element = document.querySelector.bind(document);
+    const elements = document.querySelectorAll.bind(document);
+    let destination = null;
+    let isAsc = true;
+
+    start();
+
+    //Start function
+    function start() {
+        let startArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+        randomizeArray(startArray)
+        let allEle = elements('.drag-element');
+        allEle.forEach((element, index) => {
+            element.textContent = startArray[index];
+        });
+    }
+
+    //Randomize array
+    function randomizeArray(array) {
+        for (var i = array.length - 1; i > 0; i--) {
+            var j = Math.floor(Math.random() * (i + 1));
+            var temp = array[i];
+            array[i] = array[j];
+            array[j] = temp;
+        }
+    }
+
+    // Check for winning condition
+    function isWin(isAsc) {
+        let sortedAsc = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+        let sortedDesc = [10, 9, 8, 7, 6, 5, 4, 3, 2, 1];
+        let allElements = elements('.drag-element');
+
+        let win = true;
+
+        if (isAsc) {
+            allElements.forEach((element, i) => {
+                if (element.textContent != sortedAsc[i]) {
+                    win = false;
+                }
+            })
+        } else {
+            allElements.forEach((element, i) => {
+                if (element.textContent != sortedDesc[i]) {
+                    win = false;
+                }
+            })
+        }
+
+        if (win) {
+            if (isAsc) {
+                alert('you win, now try arrange in descending order');
+            } else {
+                alert('you win, now try arrange in ascending order');
+            }
+            return true;
+        }
+        return false;
+
+    }
+
+    //Handle drag
+    function dragOverHandler(e) {
+        e.preventDefault();
+        if (e.target.classList.contains('drag-element')) {
+            destination = e.target;
+        }
+    }
+
+    function endDragHandler(e) {
+        if (destination != null && destination.classList.contains('drag-element')) {
+            let prevContent = destination.textContent;
+            let origin = e.target.querySelector('.drag-element');
+
+            destination.textContent = origin.textContent;
+            origin.textContent = prevContent;
+
+            destination = null;
+            e.target.classList.remove('modifying');
+
+            if (isWin(isAsc)) {
+                start();
+                if (isAsc) {
+                    isAsc = false;
+                } else {
+                    isAsc = true;
+                }
+            }
+        }
+    }
+
+    function startDragHandler(e) {
+        e.target.classList.add('modifying');
+    }
+
+    function dragHandler(e) {
+        e.preventDefault();
+    }
+</script>
+</body>
+</html>
